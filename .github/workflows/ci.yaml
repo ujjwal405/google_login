@@ -67,11 +67,12 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
 
     - name: Trivy Scan Image
-      uses: aquasecurity/trivy-action@0.20.0
+      uses: aquasecurity/trivy-action@master
       env:
         IMAGE_TAG: ${{ steps.meta.outputs.tags }}
       with:
         image-ref: 'docker.io/ujjwal0/google_login:${IMAGE_TAG}'
+        security-checks: 'vuln,secret,config'
         ignore-unfixed: true
         format: 'sarif'
         exit-code: '0'
