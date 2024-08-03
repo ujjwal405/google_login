@@ -9,6 +9,10 @@ on:
 jobs:
   run_code_checks:
     runs-on: ubuntu-latest
+    env:
+      NAME: google_login
+      USER: ujjwal0
+      REGISTRY: docker.io
     steps:
 
     - name: Checkout
@@ -65,13 +69,14 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+        run: echo  ${{ steps.meta.outputs.tags }}
 
     - name: Trivy Scan Image
       uses: aquasecurity/trivy-action@master
       env:
         IMAGE_TAG: ${{ steps.meta.outputs.tags }}
       with:
-        image-ref: 'docker.io/ujjwal0/google_login:${{ env.IMAGE_TAG }}'
+        image-ref: '${{ env.REGISTRY}}/${{ env.USER}}/${{ env.NAME}}:${{ env.IMAGE_TAG }}'
         security-checks: 'vuln,secret,config'
         ignore-unfixed: true
         format: 'sarif'
