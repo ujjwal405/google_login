@@ -56,30 +56,20 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Extract Meta Data
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: ujjwal0/google_login
-
     - name: Build And Push Image
       uses:  docker/build-push-action@v6
       with:
         context: .
         push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
-
-    - name: Echo
-      run: echo  ${{ steps.meta.outputs.tags }}
+        tags: ${{ env.REGISTRY}}/${{ env.USER}}/${{ env.NAME}}:${{ github.sha }}
+        
 
     - name: Trivy Scan Image
       uses: aquasecurity/trivy-action@master
       env:
         IMAGE_TAG: ${{ steps.meta.outputs.tags }}
       with:
-        image-ref: '${{ env.REGISTRY}}/${{ env.USER}}/${{ env.NAME}}:${{ env.IMAGE_TAG }}'
-        security-checks: 'vuln,secret,config'
+        image-ref: '${{ env.REGISTRY}}/${{ env.USER}}/${{ env.NAME}}:${{ github.sha }}'
         ignore-unfixed: true
         format: 'sarif'
         exit-code: '0'
