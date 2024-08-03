@@ -223,6 +223,7 @@ func (ctr *Controller) LoginEmail(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, http.StatusText(http.StatusInternalServerError), 500)
 		w.Write([]byte(err.Error()))
+		log.Println((err.Error()))
 		return
 	}
 	jwt_token := fmt.Sprintf("%s %s", authtype, token)

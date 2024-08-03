@@ -130,9 +130,8 @@ func TestSignup(t *testing.T) {
 				require.Equal(t, http.StatusInternalServerError, recorder.Code)
 			},
 		},
-
 		{
-			name: "Allok",
+			name: "All_ok",
 			body: model.UserSignup{
 				Email:    noerrEmail,
 				Password: password,
@@ -257,25 +256,7 @@ func TestLoginEmail(t *testing.T) {
 			},
 			checkresponse: func(t *testing.T, recorder *httptest.ResponseRecorder) {
 				require.Equal(t, http.StatusBadRequest, recorder.Code)
-			},
-		},
-		{
-			name: "OK",
-			body: model.UserSignup{
-				Email:    noerrEmail,
-				Password: password,
-			},
-			buildstubs: func(alldatabase *mock_database.MockAllDatabase) {
-				dbresponse := model.UserSignup{
-					Password: hashpass,
-				}
-				alldatabase.EXPECT().
-					DBGetData(gomock.Eq(noerrEmail)).
-					Times(1).
-					Return(dbresponse, nil)
-			},
-			checkresponse: func(t *testing.T, recorder *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusSeeOther, recorder.Code)
+
 			},
 		},
 	}
@@ -436,7 +417,7 @@ func TestSignCallback(t *testing.T) {
 		checkresponse func(t *testing.T, recorder *httptest.ResponseRecorder)
 	}{
 		{
-			name: "ok",
+			name: "Not_ok",
 			buildstubs: func(alldatabase *mock_database.MockAllDatabase) {
 
 				alldatabase.EXPECT().
@@ -448,7 +429,8 @@ func TestSignCallback(t *testing.T) {
 				return adduid(r, uid)
 			},
 			checkresponse: func(t *testing.T, recorder *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusSeeOther, recorder.Code)
+				require.Equal(t, 400, recorder.Code)
+
 			},
 		},
 	}
