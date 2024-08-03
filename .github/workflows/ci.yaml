@@ -68,8 +68,10 @@ jobs:
 
     - name: Trivy Scan Image
       uses: aquasecurity/trivy-action@0.20.0
+      env:
+        IMAGE_TAG: ${{ steps.meta.outputs.tags }}
       with:
-        image-ref: 'ujjwal0/google_login:${{ steps.meta.outputs.tags }}'
+        image-ref: 'ujjwal0/google_login:${IMAGE_TAG}'
         ignore-unfixed: true
         format: 'sarif'
         output: 'trivy-results.sarif'
