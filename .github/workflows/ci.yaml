@@ -71,7 +71,7 @@ jobs:
       env:
         IMAGE_TAG: ${{ steps.meta.outputs.tags }}
       with:
-        image-ref: 'docker.io/ujjwal0/google_login:${IMAGE_TAG}'
+        image-ref: 'docker.io/ujjwal0/google_login:${{ env.IMAGE_TAG }}'
         security-checks: 'vuln,secret,config'
         ignore-unfixed: true
         format: 'sarif'
