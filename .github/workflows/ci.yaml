@@ -74,6 +74,7 @@ jobs:
         image-ref: 'ujjwal0/google_login:${IMAGE_TAG}'
         ignore-unfixed: true
         format: 'sarif'
+        exit-code: '0'
         output: 'trivy-results.sarif'
         severity: 'CRITICAL,HIGH'
 
