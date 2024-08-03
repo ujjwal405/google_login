@@ -69,7 +69,9 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        run: echo  ${{ steps.meta.outputs.tags }}
+
+    - name: Echo
+      run: echo  ${{ steps.meta.outputs.tags }}
 
     - name: Trivy Scan Image
       uses: aquasecurity/trivy-action@master
