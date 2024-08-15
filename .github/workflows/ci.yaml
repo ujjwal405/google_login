@@ -4,9 +4,8 @@ on:
   push:
     branches:
     - master
-    paths:
-    - '**'
-    - '!README.md'
+    paths-ignore:
+    - 'Readme.md'
 
 jobs:
   run_code_checks:
